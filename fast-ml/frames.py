@@ -5,6 +5,15 @@ from tkinter.filedialog import askopenfilename
 import toplevels
 
 
+SPLIT_LIST = [
+    'Train-Test Split'
+]
+
+ALGORITHM_LIST = [
+    'k-Nearest Neighbors (kNN)'
+]
+
+
 class File(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
@@ -25,4 +34,30 @@ class File(tk.Frame):
         dir = askopenfilename(title='Choose a file', filetypes=filetypes)
 
         if len(dir) > 0:
-            toplevels.Data(self, dir, os.path.basename(dir))
+            toplevels.Steps(self, dir, os.path.basename(dir))
+
+
+class Split(tk.LabelFrame):
+    def __init__(self, master):
+        super().__init__(master, text='Data')
+
+        self.split = ttk.Combobox(self, values=SPLIT_LIST, state="readonly")
+        self.split.current(0)
+        self.split.pack(fill='x', padx=15, pady=5)
+
+
+class Algorithm(tk.LabelFrame):
+    def __init__(self, master):
+        super().__init__(master, text='Algorithm')
+
+        self.algorithm = ttk.Combobox(self, values=ALGORITHM_LIST, state="readonly")
+        self.algorithm.current(0)
+        self.algorithm.pack(fill='x', padx=15, pady=5)
+
+
+class Result(tk.LabelFrame):
+    def __init__(self, master):
+        super().__init__(master, text='Results')
+
+        self.train_button = ttk.Button(self, text='Train', width=23)
+        self.train_button.pack(fill='x', padx=15, pady=5)
