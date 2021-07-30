@@ -3,14 +3,20 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
 import toplevels
+import functions
 
 
-SPLIT_LIST = [
-    'Train-Test Split'
+LEARNING = [
+    'Supervised Learning',
 ]
 
-ALGORITHM_LIST = [
-    'k-Nearest Neighbors (kNN)'
+TECHNIQUES = [
+    'Classification',
+    'Regression',
+]
+
+ALGORITHMS = [
+    'k-Nearest Neighbors (kNN)',
 ]
 
 
@@ -37,27 +43,43 @@ class File(tk.Frame):
             toplevels.Steps(self, dir, os.path.basename(dir))
 
 
-class Split(tk.LabelFrame):
+class Data(tk.LabelFrame):
     def __init__(self, master):
         super().__init__(master, text='Data')
 
-        self.split = ttk.Combobox(self, values=SPLIT_LIST, state="readonly")
-        self.split.current(0)
-        self.split.pack(fill='x', padx=15, pady=5)
+        self.df_info = tk.Text(self, width=15, relief='solid')
+        self.df_info.pack(fill='both', expand=True, padx=15, pady=15)
+
+    def display_data(self, data):
+        info = functions.get_data_overview(data)
+
+        text = (f'Shape: {info[0]}\n\n'
+                f'Missing Values:\n{info[1]}')
+
+        self.df_info.insert('end', text)
+        self.df_info.config(state='disabled')
 
 
 class Algorithm(tk.LabelFrame):
     def __init__(self, master):
         super().__init__(master, text='Algorithm')
 
-        self.algorithm = ttk.Combobox(self, values=ALGORITHM_LIST, state="readonly")
+        self.learning = ttk.Combobox(self, values=LEARNING, state="readonly")
+        self.learning.current(0)
+        self.learning.pack(fill='x', padx=15, pady=5)
+
+        self.technique = ttk.Combobox(self, values=TECHNIQUES, state="readonly")
+        self.technique.current(0)
+        self.technique.pack(fill='x', padx=15, pady=5)
+
+        self.algorithm = ttk.Combobox(self, values=ALGORITHMS, state="readonly")
         self.algorithm.current(0)
         self.algorithm.pack(fill='x', padx=15, pady=5)
 
 
 class Result(tk.LabelFrame):
     def __init__(self, master):
-        super().__init__(master, text='Results')
+        super().__init__(master, text='Result')
 
         self.train_button = ttk.Button(self, text='Train', width=23)
         self.train_button.pack(fill='x', padx=15, pady=5)
