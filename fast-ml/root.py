@@ -1,10 +1,9 @@
 import tkinter as tk
-from tkinter import ttk
 import frames
 
 
 class Root(tk.Tk):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.title('FastML')
