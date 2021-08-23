@@ -1,10 +1,7 @@
 import pandas as pd
 
 
-def get_data_overview(data):
-    df = pd.read_csv(data)
-
-    shape = df.shape
+def get_missing_values(df: pd.core.frame.DataFrame) -> str:
     missing_values = df.isnull().sum()
 
     for idx, value in zip(missing_values.index, missing_values.values):
@@ -16,9 +13,29 @@ def get_data_overview(data):
     else:
         missing_values = 'There are no missing values.'
 
-    info = [
-        shape,
-        missing_values,
-    ]
+    return missing_values
+
+
+def get_columns(data: str) -> list:
+    df = pd.read_csv(data)
+    columns = list(df.columns)
+
+    return columns
+
+
+def get_data_overview(data: str) -> dict:
+    df = pd.read_csv(data)
+
+    shape = df.shape
+    data_types = df.dtypes.to_string()
+    missing_values = get_missing_values(df)
+    duplicated_rows = df.duplicated().sum()
+
+    info = {
+        'shape': shape,
+        'types': data_types,
+        'missing': missing_values,
+        'duplicated': duplicated_rows,
+    }
 
     return info
